@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Image, Text } from 'react-native';
+import React from 'react';
+import { Text } from 'react-native';
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import { FormControl,
     FormControlErrorText,
@@ -11,35 +11,59 @@ import { Input,
 import { VStack } from '@/components/ui/vstack';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '@/src/contexts/AuthContext';
 
-type FormSchema = { email: string; password: string }
+type FormSchema = { name: string; email: string; password: string }
 
-export const SignInScreen: React.FC = ({}): JSX.Element => {
-    const { navigate } = useNavigation();
-    const { handleSignIn, loading } = useContext(AuthContext)
-    
+export const SignUpnScreen: React.FC = ({}): JSX.Element => {
+    const { goBack } = useNavigation();
     const { control, handleSubmit, formState: { errors } } = useForm<FormSchema>();
+    
+    const [loading, setLoading] = React.useState<boolean>(false);
 
     const onSubmit = async (values: FormSchema): Promise<void> => {
+        setLoading(true)
+        console.log('values: ', values);
+
         try {
-            await handleSignIn({ 
-                email: values.email,
-                password: values.password
-            })
+            
         } catch (error) {
-            throw error
+            console.log('error: ', error);
+        } finally {
+            setLoading(false)
         }
     }
 
-    const navigateToSignUp = () => navigate("SignUp")
-
     return (
-        <VStack className="flex-1 w-full px-12 justify-center">
-            <Image
-                className='size-60 self-center'
-                source={require('../../assets/images/bccburger-black-vetor.png')}
+        <VStack className="flex-1 w-full px-12 justify-center ">
+            <Text className='text-center font-bold text-3xl mb-4'>Criar conta</Text>
+            <Controller 
+                control={control}
+                name="name"
+                rules={{
+                    required: "Digite um name válido"                 
+                }}
+                render={({ field }) => (
+                    <FormControl size="md" isInvalid={!!errors.name}>
+                        <FormControlLabel className='mb-0'>
+                            <FormControlLabelText>Nome</FormControlLabelText>
+                        </FormControlLabel>
+                        
+                        <Input className="my-1" size="md">
+                            <InputField
+                                {...field}
+                                value={field.value || ""}
+                                onChangeText={field.onChange}
+                                placeholder="Digite seu nome"
+                            />
+                        </Input>
+
+                        {!!errors.name?.message && (
+                            <FormControlErrorText>{errors.name.message as string}</FormControlErrorText>
+                        )}
+                    </FormControl>
+                )}
             />
+
             <Controller 
                 control={control}
                 name="email"
@@ -112,14 +136,14 @@ export const SignInScreen: React.FC = ({}): JSX.Element => {
                 {loading ?
                     <ButtonSpinner className='text-white' />
                 :
-                    <ButtonText>Entrar</ButtonText>
+                    <ButtonText>Criar</ButtonText>
                 }
             </Button>
 
-            <Button variant='link' onPress={navigateToSignUp}>
-                <Text>Não possui uma conta?
+            <Button variant='link' onPress={goBack}>
+                <Text>Já possui uma conta?
                     <ButtonText className='text-tertiary-500'>
-                        {' '}Cadastre-se
+                        {' '}Entrar
                     </ButtonText>
                 </Text>
             </Button>

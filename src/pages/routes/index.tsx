@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AppRoutes } from './app.routes';
-import { AuhtRoutes } from './auth.routes';
+import { AuthRoutes } from './auth.routes';
+import { AuthContext } from '@/src/contexts/AuthContext';
+import { HStack } from '@/components/ui/hstack';
+import { Image } from 'react-native';
 
 type Props = {
 
@@ -9,8 +12,20 @@ type Props = {
 export const Routes: React.FC<Props> = ({
 
 }): JSX.Element => {
-    const isAuthenticated = false
+    const { isAuthenticated, loading } = useContext(AuthContext);
+
+    if (loading) {
+        return (
+            <HStack className='flex-1 items-center justify-center bg-background-50'>
+                <Image
+                    className='size-72'
+                    source={require('../../assets/images/bccburger-black-vetor.png')}
+                />
+            </HStack>
+        )
+    }
+
     return (
-        isAuthenticated ? <AuhtRoutes /> : <AppRoutes />
+        isAuthenticated ? <AuthRoutes /> : <AppRoutes />
     );
 };
