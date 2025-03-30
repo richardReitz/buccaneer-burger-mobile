@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import { Image, Text } from 'react-native';
-import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
+import { Image } from 'react-native';
+import { Button, ButtonText } from '@/components/ui/button';
 import { FormControl,
     FormControlErrorText,
-    FormControlLabel,
     FormControlLabelText 
 } from '@/components/ui/form-control';
 import { Input,
@@ -12,11 +11,15 @@ import { VStack } from '@/components/ui/vstack';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '@/src/contexts/AuthContext';
+import { FormButton } from '@/components/FormButton';
+import { Text } from '@/components/ui/text';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { StackParamList } from '../routes/types';
 
 type FormSchema = { email: string; password: string }
 
-export const SignInScreen: React.FC = ({}): JSX.Element => {
-    const { navigate } = useNavigation();
+export const SignInScreen: React.FC = (): JSX.Element => {
+    const { navigate } = useNavigation<NativeStackNavigationProp<StackParamList>>();
     const { handleSignIn, loading } = useContext(AuthContext)
     
     const { control, handleSubmit, formState: { errors } } = useForm<FormSchema>();
@@ -35,10 +38,11 @@ export const SignInScreen: React.FC = ({}): JSX.Element => {
     const navigateToSignUp = () => navigate("SignUp")
 
     return (
-        <VStack className="flex-1 w-full px-12 justify-center">
+        <VStack className="flex-1 w-full px-12 justify-center gap-1 bg-background-900">
             <Image
-                className='size-60 self-center'
-                source={require('../../assets/images/bccburger-black-vetor.png')}
+                className='w-80 self-center'
+                source={require('../../assets/images/buccaneerburger-logo.png')}
+                resizeMode='contain'
             />
             <Controller 
                 control={control}
@@ -52,17 +56,18 @@ export const SignInScreen: React.FC = ({}): JSX.Element => {
                 }}
                 render={({ field }) => (
                     <FormControl size="md" isInvalid={!!errors.email}>
-                        <FormControlLabel className='mb-0'>
-                            <FormControlLabelText>Email</FormControlLabelText>
-                        </FormControlLabel>
+                        <FormControlLabelText className='text-secondary-0'>
+                            Email
+                        </FormControlLabelText>
                         
-                        <Input className="my-1" size="md">
+                        <Input className="bg-background-700 border-0" size="lg">
                             <InputField
                                 {...field}
                                 value={field.value || ""}
                                 onChangeText={field.onChange}
                                 placeholder="Digite seu email"
                                 keyboardType="email-address"
+                                className='text-secondary-0'
                             />
                         </Input>
 
@@ -81,18 +86,19 @@ export const SignInScreen: React.FC = ({}): JSX.Element => {
                     minLength: { value: 6, message: "A senha deve ter pelo menos 6 caracteres" }
                 }}
                 render={({ field }) => (
-                    <FormControl size="md" className='mt-2' isInvalid={!!errors.password}>
-                        <FormControlLabel className='mb-0'>
-                            <FormControlLabelText>Senha</FormControlLabelText>
-                        </FormControlLabel>
+                    <FormControl size="md" isInvalid={!!errors.password}>
+                         <FormControlLabelText className='text-secondary-0'>
+                            Senha
+                        </FormControlLabelText>
                         
-                        <Input className="my-1" size="md">
+                        <Input className="bg-background-700 border-0" size="lg">
                             <InputField
                                 {...field}
                                 value={field.value || ""}
                                 onChangeText={field.onChange}
                                 type="password"
                                 placeholder="Digite sua senha"
+                                className='text-secondary-0'
                             />
                         </Input>
 
@@ -103,21 +109,15 @@ export const SignInScreen: React.FC = ({}): JSX.Element => {
                 )}
             />
 
-            <Button 
-                className="bg-tertiary-500 mt-3"
-                size="md"
-                disabled={loading}
+            <FormButton
+                label='Entrar'
+                loading={loading}
                 onPress={handleSubmit(onSubmit)}
-            >
-                {loading ?
-                    <ButtonSpinner className='text-white' />
-                :
-                    <ButtonText>Entrar</ButtonText>
-                }
-            </Button>
+                className='mt-2'
+            />
 
             <Button variant='link' onPress={navigateToSignUp}>
-                <Text>Não possui uma conta?
+                <Text className='text-secondary-0'>Não possui uma conta?
                     <ButtonText className='text-tertiary-500'>
                         {' '}Cadastre-se
                     </ButtonText>

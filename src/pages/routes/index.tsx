@@ -16,10 +16,10 @@ export const Routes: React.FC<Props> = ({
 
     if (loading) {
         return (
-            <HStack className='flex-1 items-center justify-center bg-background-50'>
+            <HStack className='flex-1 items-center justify-center bg-background-900'>
                 <Image
                     className='size-72'
-                    source={require('../../assets/images/bccburger-black-vetor.png')}
+                    source={require('../../assets/images/buccaneerburger-logo.png')}
                 />
             </HStack>
         )

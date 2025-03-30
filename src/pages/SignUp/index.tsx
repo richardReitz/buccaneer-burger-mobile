@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
+import { Button, ButtonText } from '@/components/ui/button';
 import { FormControl,
     FormControlErrorText,
-    FormControlLabel,
     FormControlLabelText 
 } from '@/components/ui/form-control';
 import { Input,
@@ -11,6 +9,8 @@ import { Input,
 import { VStack } from '@/components/ui/vstack';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
+import { FormButton } from '@/components/FormButton';
+import { Text } from '@/components/ui/text';
 
 type FormSchema = { name: string; email: string; password: string }
 
@@ -34,8 +34,11 @@ export const SignUpnScreen: React.FC = ({}): JSX.Element => {
     }
 
     return (
-        <VStack className="flex-1 w-full px-12 justify-center ">
-            <Text className='text-center font-bold text-3xl mb-4'>Criar conta</Text>
+        <VStack className="flex-1 w-full px-12 justify-center gap-1 bg-background-900">
+            <Text className='text-center font-bold text-3xl mb-4 text-secondary-0'>
+                Criar conta
+            </Text>
+            
             <Controller 
                 control={control}
                 name="name"
@@ -44,16 +47,17 @@ export const SignUpnScreen: React.FC = ({}): JSX.Element => {
                 }}
                 render={({ field }) => (
                     <FormControl size="md" isInvalid={!!errors.name}>
-                        <FormControlLabel className='mb-0'>
-                            <FormControlLabelText>Nome</FormControlLabelText>
-                        </FormControlLabel>
+                        <FormControlLabelText className='text-secondary-0'>
+                            Nome
+                        </FormControlLabelText>
                         
-                        <Input className="my-1" size="md">
+                        <Input className="bg-background-700 border-0" size="lg">
                             <InputField
                                 {...field}
                                 value={field.value || ""}
                                 onChangeText={field.onChange}
                                 placeholder="Digite seu nome"
+                                className='text-secondary-0'
                             />
                         </Input>
 
@@ -76,17 +80,18 @@ export const SignUpnScreen: React.FC = ({}): JSX.Element => {
                 }}
                 render={({ field }) => (
                     <FormControl size="md" isInvalid={!!errors.email}>
-                        <FormControlLabel className='mb-0'>
-                            <FormControlLabelText>Email</FormControlLabelText>
-                        </FormControlLabel>
+                        <FormControlLabelText className='text-secondary-0'>
+                            Email
+                        </FormControlLabelText>
                         
-                        <Input className="my-1" size="md">
+                        <Input className="bg-background-700 border-0" size="lg">
                             <InputField
                                 {...field}
                                 value={field.value || ""}
                                 onChangeText={field.onChange}
                                 placeholder="Digite seu email"
                                 keyboardType="email-address"
+                                className='text-secondary-0'
                             />
                         </Input>
 
@@ -105,18 +110,19 @@ export const SignUpnScreen: React.FC = ({}): JSX.Element => {
                     minLength: { value: 6, message: "A senha deve ter pelo menos 6 caracteres" }
                 }}
                 render={({ field }) => (
-                    <FormControl size="md" className='mt-2' isInvalid={!!errors.password}>
-                        <FormControlLabel className='mb-0'>
-                            <FormControlLabelText>Senha</FormControlLabelText>
-                        </FormControlLabel>
+                    <FormControl size="md" isInvalid={!!errors.password}>
+                        <FormControlLabelText className='text-secondary-0'>
+                            Senha
+                        </FormControlLabelText>
                         
-                        <Input className="my-1" size="md">
+                        <Input className="bg-background-700 border-0" size="lg">
                             <InputField
                                 {...field}
                                 value={field.value || ""}
                                 onChangeText={field.onChange}
                                 type="password"
                                 placeholder="Digite sua senha"
+                                className='text-secondary-0'
                             />
                         </Input>
 
@@ -127,21 +133,15 @@ export const SignUpnScreen: React.FC = ({}): JSX.Element => {
                 )}
             />
 
-            <Button 
-                className="bg-tertiary-500 mt-3"
-                size="md"
-                disabled={loading}
+            <FormButton
+                label='Criar'
+                loading={loading}
                 onPress={handleSubmit(onSubmit)}
-            >
-                {loading ?
-                    <ButtonSpinner className='text-white' />
-                :
-                    <ButtonText>Criar</ButtonText>
-                }
-            </Button>
-
+                className='mt-2'
+            />
+            
             <Button variant='link' onPress={goBack}>
-                <Text>Já possui uma conta?
+                <Text className='text-secondary-0'>Já possui uma conta?
                     <ButtonText className='text-tertiary-500'>
                         {' '}Entrar
                     </ButtonText>
