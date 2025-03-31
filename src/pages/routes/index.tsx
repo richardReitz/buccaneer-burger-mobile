@@ -4,6 +4,7 @@ import { AuthRoutes } from './auth.routes';
 import { AuthContext } from '@/src/contexts/AuthContext';
 import { HStack } from '@/components/ui/hstack';
 import { Image } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 type Props = {
 
@@ -26,6 +27,9 @@ export const Routes: React.FC<Props> = ({
     }
 
     return (
-        isAuthenticated ? <AuthRoutes /> : <AppRoutes />
+        <>
+            <StatusBar backgroundColor="#272625" style='light' />
+            {isAuthenticated ? <AuthRoutes /> : <AppRoutes />}
+        </>
     );
 };
