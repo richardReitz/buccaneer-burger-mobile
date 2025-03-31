@@ -1,33 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, ButtonText } from '@/components/ui/button';
 import { FormControl,
     FormControlErrorText,
     FormControlLabelText 
 } from '@/components/ui/form-control';
-import { Input,
-    InputField } from '@/components/ui/input';
+import { Input, InputField } from '@/components/ui/input';
 import { VStack } from '@/components/ui/vstack';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { FormButton } from '@/components/FormButton';
 import { Text } from '@/components/ui/text';
+import { AuthContext } from '@/src/contexts/AuthContext';
 
 type FormSchema = { name: string; email: string; password: string }
 
-export const SignUpnScreen: React.FC = ({}): JSX.Element => {
+export const SignUpScreen: React.FC = (): JSX.Element => {
     const { goBack } = useNavigation();
     const { control, handleSubmit, formState: { errors } } = useForm<FormSchema>();
+    const { handleSignUp } = useContext(AuthContext)
     
     const [loading, setLoading] = React.useState<boolean>(false);
 
     const onSubmit = async (values: FormSchema): Promise<void> => {
         setLoading(true)
-        console.log('values: ', values);
 
         try {
-            
+            const res = await handleSignUp(values)
+            if (res) goBack()
         } catch (error) {
-            console.log('error: ', error);
+            throw error
         } finally {
             setLoading(false)
         }
