@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, SetStateAction } from "react";
 import { api } from "../services/api";
 import { useUserStorage } from "../store/useUserStorage";
+import { useToast } from "../hooks/useToast";
 
 export type User = {
     id: string;
@@ -34,6 +35,7 @@ const initialUserValue: User = {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const { saveUserStore, getUserStore, removeUserStore } = useUserStorage()
+    const { handleUseToast } = useToast()
 
     const [user, setUser] = React.useState<User>(initialUserValue)
     const [loading, setLoading] = React.useState<boolean>(false)
@@ -76,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             api.defaults.headers.common['Authorization'] = `Bearer ${user.token}`
         } catch (error) {
-            console.log('Erro ao fazer login! ', error);
+            handleUseToast({ title: 'Error', description: 'Email e/ou senha inválidos.', type: 'error' })
         } finally {
             setLoadingAuth(false)
         }

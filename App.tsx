@@ -9,8 +9,8 @@ import { AuthProvider } from './src/contexts/AuthContext';
 
 export default function App() {
     return (
-        <GluestackUIProvider mode="light">
-            <SafeAreaProvider>
+        <SafeAreaProvider>
+            <GluestackUIProvider mode="light">
                 <AuthProvider>
                     <NavigationContainer>
                         <StatusBar style="auto" />
@@ -19,7 +19,7 @@ export default function App() {
                         </SafeAreaView>
                     </NavigationContainer>
                 </AuthProvider>
-            </SafeAreaProvider>
-        </GluestackUIProvider>
+            </GluestackUIProvider>
+        </SafeAreaProvider>
     );
 }

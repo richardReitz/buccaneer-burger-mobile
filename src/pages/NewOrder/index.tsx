@@ -10,6 +10,7 @@ import { ProductItem } from './components/ProductItem';
 import { useOrderItemStore } from '@/src/store/useOrderItemStore';
 import { ScrollView } from 'react-native';
 import { AlertDialog } from '@/components/AlertDialog';
+import { useToast } from '@/src/hooks/useToast';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { StackParamList } from '../routes/types';
 import type { ISelectItemProps } from '@gluestack-ui/select/lib/types';
@@ -19,6 +20,7 @@ type Props = NativeStackScreenProps<StackParamList, 'NewOrder'>
 export const NewOrderScreen: React.FC<Props> = ({ navigation, route }): JSX.Element => {
     const { order_id } = route.params
     const { orderItems, addItemToOrder, reset } = useOrderItemStore()
+    const { handleUseToast } = useToast()
 
     const [loading, setLoading] = React.useState<boolean>(false)
     const [loadingProduct, setLoadingProduct] = React.useState<boolean>(false)
@@ -47,6 +49,11 @@ export const NewOrderScreen: React.FC<Props> = ({ navigation, route }): JSX.Elem
 
             setCategories(categoriesResposne)
         } catch (error) {
+            handleUseToast({
+                title: 'Erro',
+                description: 'Algo deu errado ao buscar categorias.',
+                type: 'error'
+            })
             console.log('error: ', error);
         }
     }
@@ -65,6 +72,11 @@ export const NewOrderScreen: React.FC<Props> = ({ navigation, route }): JSX.Elem
 
             setProducts(productResponse)
         } catch (error) {
+            handleUseToast({
+                title: 'Erro',
+                description: 'Algo deu errado ao buscar produtos.',
+                type: 'error'
+            })
             console.log('error: ', error);
         } finally {
             setLoadingProduct(false)
@@ -102,11 +114,21 @@ export const NewOrderScreen: React.FC<Props> = ({ navigation, route }): JSX.Elem
                 )
             })
             await api.put('/order/send', { order_id })
+            handleUseToast({
+                title: 'Pedido aberto!',
+                description: 'Pedido foi enviado com sucesso.',
+                type: 'success'
+            })
 
             reset()
             navigation.goBack()
         } catch (error) {
             console.log('error: ', error);
+            handleUseToast({
+                title: 'Erro',
+                description: 'Algo deu errado ao finalizar pedido, tente novamente.',
+                type: 'error'
+            })
         } finally {
             setLoading(false)
         }

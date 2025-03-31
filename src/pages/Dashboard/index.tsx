@@ -6,6 +6,7 @@ import { FormButton } from '@/components/FormButton';
 import { Header } from './components/Header';
 import { api } from '@/src/services/api';
 import { useNavigation } from '@react-navigation/native';
+import { useToast } from '@/src/hooks/useToast';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { StackParamList } from '../routes/types';
 
@@ -16,6 +17,7 @@ export type NewOrder = {
 
 export const DashboardScreen: React.FC = (): JSX.Element => {
     const { navigate } = useNavigation<NativeStackNavigationProp<StackParamList>>()
+    const { handleUseToast } = useToast()
 
     const [tableNumber, setTableNumber] = React.useState<string>('')
     const [loading, setLoading] = React.useState<boolean>(false)
@@ -34,7 +36,11 @@ export const DashboardScreen: React.FC = (): JSX.Element => {
 
             navigate("NewOrder", { table: newORder.table, order_id: newORder.id })
         } catch (error) {
-            console.log('Erro ao abrir pedido! ', error);
+            handleUseToast({
+                title: 'Erro',
+                description: 'Algo deu errado ao abrir o pedido, tente novamente.',
+                type: 'error'
+            })
         } finally {
             setLoading(false)
         }

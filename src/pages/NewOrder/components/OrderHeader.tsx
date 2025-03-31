@@ -6,14 +6,16 @@ import { HStack } from '@/components/ui/hstack';
 import { Button, ButtonIcon, ButtonSpinner } from '@/components/ui/button';
 import { Trash } from 'lucide-react-native';
 import { api } from '@/src/services/api';
+import { useToast } from '@/src/hooks/useToast';
+import { AlertDialog } from '@/components/AlertDialog';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { StackParamList } from '@/src/pages/routes/types';
-import { AlertDialog } from '@/components/AlertDialog';
 
 type Props = NativeStackScreenProps<StackParamList, 'NewOrder'>
 
 export const OrderHeader: React.FC<Props> = ({ navigation, route }): JSX.Element => {
     const { order_id, table } = route.params
+    const { handleUseToast } = useToast()
 
     const [loading, setLoading] = React.useState<boolean>(false);
     const [deleteModal, setDeleteModal] = React.useState<boolean>(false);
@@ -28,6 +30,11 @@ export const OrderHeader: React.FC<Props> = ({ navigation, route }): JSX.Element
             navigation.goBack()
         } catch (error) {
             setLoading(false)
+            handleUseToast({
+                title: 'Erro',
+                description: 'Algo deu errado, tente novamente.',
+                type: 'error'
+            })
         }
     }
 
