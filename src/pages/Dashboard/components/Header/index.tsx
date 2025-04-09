@@ -12,7 +12,7 @@ export const Header: React.FC = (): JSX.Element => {
         <HStack className='items-center justify-between'>
             <Image
                 source={require('@/src/assets/images/buccaneerburger-logo.png')}
-                className='w-40 h-20'
+                className='w-32 h-16'
                 resizeMode='contain'
             />
             <Button size='sm' onPress={handleSignOut}>

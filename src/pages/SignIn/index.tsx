@@ -40,7 +40,7 @@ export const SignInScreen: React.FC = (): JSX.Element => {
     return (
         <VStack className="flex-1 w-full px-12 justify-center gap-1 bg-background-900">
             <Image
-                className='w-80 self-center'
+                className='w-72 self-center'
                 source={require('../../assets/images/buccaneerburger-logo.png')}
                 resizeMode='contain'
             />

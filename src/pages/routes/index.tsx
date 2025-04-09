@@ -6,11 +6,7 @@ import { HStack } from '@/components/ui/hstack';
 import { Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-type Props = {
-
-};
-
-export const Routes: React.FC<Props> = ({
+export const Routes: React.FC = ({
 
 }): JSX.Element => {
     const { isAuthenticated, loading } = useContext(AuthContext);
@@ -19,8 +15,9 @@ export const Routes: React.FC<Props> = ({
         return (
             <HStack className='flex-1 items-center justify-center bg-background-900'>
                 <Image
-                    className='size-72'
+                    className='w-72'
                     source={require('../../assets/images/buccaneerburger-logo.png')}
+                    resizeMode='contain'
                 />
             </HStack>
         )
