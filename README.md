@@ -17,7 +17,5 @@ Sistema de pedidos de hamburgueria. O aplicativo mobile é responsável pela abe
 
 
 ## Demonstração
-https://github.com/user-attachments/assets/fe46596a-33f5-40a8-aa3f-48b628aadd53
-
-
+https://github.com/user-attachments/assets/7d671822-6a78-40df-8638-d7034618eb67
 
