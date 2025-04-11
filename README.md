@@ -10,7 +10,14 @@ Sistema de pedidos de hamburgueria. O aplicativo mobile é responsável pela abe
 - Gluestack
 - Zustand
 
+
 ## Funcionalidades
 - Cadastro/Login de usuários (cliente e administrador)
-
 - Gerenciamento de abertura e criação dos pedidos nas mesas
+
+
+## Demonstração
+https://github.com/user-attachments/assets/fe46596a-33f5-40a8-aa3f-48b628aadd53
+
+
+
